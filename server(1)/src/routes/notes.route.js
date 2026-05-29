@@ -1,5 +1,5 @@
 import express from "express"
-import { creatNoteController } from "../controllers/notes.controller.js";
+import { creatNoteController, getAllNotesController } from "../controllers/notes.controller.js";
 const router = express.Router();
 
 
@@ -9,5 +9,13 @@ const router = express.Router();
  * @aceess  Public
  */
 router.post("/",creatNoteController)
+
+
+/**
+ * @route   GET /api/notes
+ * @desc    Fetch all notes from database
+ * @aceess  Public
+ */
+router.get("/",getAllNotesController)
 
 export default router

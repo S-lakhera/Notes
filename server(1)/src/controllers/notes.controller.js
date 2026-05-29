@@ -1,20 +1,36 @@
-import { noteCreationService } from "../services/notes.service.js"
+import { fetchAllNotesService, noteCreationService } from "../services/notes.service.js"
 
 // Create new Note controller
-export let creatNoteController = async (req, res) => {
+export const creatNoteController = async (req, res) => {
     try {
-        let response = await noteCreationService(req.body)
-        console.log(response);
+        let note = await noteCreationService(req.body)
         
         res.status(201).json({
             success:true,
-            message:"User created successfully."
+            message:"Note created successfully.",
+            note
         })
     } catch (err) {
-        res.status(501).json({
+        res.status(500).json({
             message: err.message,
             success : false,
         })
     }
 }
 
+export const getAllNotesController = async(req,res) => {
+    try {
+        let notes = await fetchAllNotesService();
+
+        return res.status(200).json({
+            success:true,
+            message:"Notes Fetched successfully",
+            notes
+        })
+    } catch (err) {
+        res.status(500).json({
+            message: err.message,
+            success : false,
+        })
+    }
+}
