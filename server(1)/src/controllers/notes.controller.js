@@ -1,4 +1,4 @@
-import { fetchAllNotesService, fetchNoteById, noteCreationService } from "../services/notes.service.js"
+import { fetchAllNotesService, fetchNoteByIdService, noteCreationService, updateNoteService } from "../services/notes.service.js"
 
 // Create new Note controller
 export const creatNoteController = async (req, res) => {
@@ -35,18 +35,41 @@ export const getAllNotesController = async (req, res) => {
     }
 }
 
-export const getNoteById = async (req, res) => {
+export const getNoteByIdController = async (req, res) => {
     try {
         let { id } = req.params;
-    if (!id) {
-        return res.status(404).json({
-            message: "Id not found",
+        if (!id) {
+            return res.status(404).json({
+                message: "Id not found",
+                success: false,
+            })
+        }
+        let note = await fetchNoteByIdService(id)
+
+        return res.status(200).json({
+            message: "Note fetched successfully",
+            success: true,
+            note
+        })
+    } catch (err) {
+        return res.status(500).json({
+            message: err.message,
             success: false,
         })
     }
-    let note = await fetchNoteById(id)
+}
+export const updateNoteController = async (req, res) => {
+    try {
+        let { id } = req.params;
+        if (!id) {
+            return res.status(404).json({
+                message: "Id not found",
+                success: false,
+            })
+        }
+        let note = await updateNoteService(id, req.body)
 
-    return res.status(200).json({
+        return res.status(200).json({
             message: "Note fetched successfully",
             success: true,
             note

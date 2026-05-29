@@ -39,7 +39,7 @@ export const fetchAllNotesService = async () => {
     }
 }
 
-export const fetchNoteById = async(id) => {
+export const fetchNoteByIdService = async(id) => {
     try {
         let note = await Notes.findById(id);
         if(!note){
@@ -48,5 +48,24 @@ export const fetchNoteById = async(id) => {
         return note
     } catch (err) {
         throw new Error(err.message)
+    }
+}
+
+export const updateNoteService = async(id,{title,description}) => {
+    try {
+        if(!title || !description){
+            throw new Error("Title & description are mandatory.")
+        }
+        
+        let updatedNote = await Notes.findByIdAndUpdate(id,{title,description},{returnDocument: "after",})
+        if(!updatedNote){
+            throw new Error("Note not found")
+        }
+
+        
+
+        return updatedNote
+    } catch (err) {
+        
     }
 }
