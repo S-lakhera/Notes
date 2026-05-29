@@ -38,3 +38,15 @@ export const fetchAllNotesService = async () => {
         throw new Error(err)
     }
 }
+
+export const fetchNoteById = async(id) => {
+    try {
+        let note = await Notes.findById(id);
+        if(!note){
+            throw new Error("Note not found")
+        }
+        return note
+    } catch (err) {
+        throw new Error(err.message)
+    }
+}
